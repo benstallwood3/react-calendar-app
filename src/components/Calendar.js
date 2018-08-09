@@ -115,6 +115,17 @@ class Calendar extends React.Component {
     });
   };
 
+  whatIsDay = key => {
+    return (
+      key +
+      1 +
+      " " +
+      months[this.state.currentMonth] +
+      " " +
+      this.state.currentYear
+    );
+  };
+
   createGrid = (month, year) => {
     const daysInMonth = [];
     for (let i = 0; i < this.getDaysInMonth(month, year); i++) {
@@ -130,20 +141,14 @@ class Calendar extends React.Component {
           this.state.currentMonth === this.state.realTimeMonth &&
           day === key + 1
         }
-        highlighted={
-          this.state.highlightedDay ===
-          key +
-            1 +
-            " " +
-            months[this.state.currentMonth] +
-            " " +
-            this.state.currentYear
-        }
+        highlighted={this.state.highlightedDay === this.whatIsDay(key)}
+        eventToday={this.whatIsDay(key)}
         currentYear={this.state.currentYear}
         handleClick={this.handleClick}
         addEvent={this.addEvent}
-        hasEvent={this.state.hasEvent}
-        events={this.state.events}
+        events={Object.values(this.state.events).filter(
+          event => event.day === this.whatIsDay(key)
+        )}
       />
     ));
   };
